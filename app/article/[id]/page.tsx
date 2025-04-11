@@ -7,6 +7,7 @@ import Link from "next/link"
 import Image from "next/image"
 import CommentSection from "@/components/comment-section"
 import AdminDeleteArticle from "@/components/admin-delete-article"
+import LikeButton from "@/components/like-button"
 import { notFound } from "next/navigation"
 
 export default async function ArticlePage({
@@ -55,28 +56,35 @@ export default async function ArticlePage({
             </Badge>
           ))}
         </div>
-
-        <Button asChild variant="outline" className="gap-2">
-          <Link href={article.url} target="_blank" rel="noopener noreferrer">
-            <span>Read Article</span>
-            <ExternalLink className="h-4 w-4" />
-          </Link>
-        </Button>
+        
+        <div className="flex justify-between items-center">
+          <Button asChild variant="outline" className="gap-2">
+            <Link href={article.url} target="_blank" rel="noopener noreferrer">
+              <span>Read Article</span>
+              <ExternalLink className="h-4 w-4" />
+            </Link>
+          </Button>
+          
+          {/* Like button */}
+          <LikeButton articleId={article.id} initialLikes={article.likes || 0} />
+        </div>
       </div>
 
       {article.image_url && (
-        <div className="relative w-full h-[300px] sm:h-[400px] rounded-lg overflow-hidden">
-          <Image src={article.image_url || "/placeholder.svg"} alt={article.title} fill className="object-cover" />
+        <div className="relative w-full h-[300px] sm:h-[400px] rounded-lg overflow-hidden mt-4">
+          <Image src={article.image_url} alt={article.title} fill className="object-cover" />
         </div>
       )}
 
       {article.description && (
-        <div className="prose max-w-none dark:prose-invert">
+        <div className="prose max-w-none dark:prose-invert mt-6">
           <p>{article.description}</p>
         </div>
       )}
 
-      <CommentSection articleId={article.id} />
+      <div className="mt-8">
+        <CommentSection articleId={article.id} />
+      </div>
     </article>
   )
 }

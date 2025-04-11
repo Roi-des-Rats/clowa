@@ -26,7 +26,7 @@ export async function generateTags(title: string, url: string): Promise<string[]
     })
     const data = await response.json()
     const tagsText = data.candidates[0].content.parts[0].text
-    return tagsText.split(",").map((tag: string) => tag.trim())
+    return tagsText.split(",").map((tag: string) => tag.trim().toLowerCase())
   } catch (error) {
     console.error("Error generating tags:", error)
     return ["error"]

@@ -3,7 +3,7 @@ import Image from "next/image"
 import { formatDate, getHostname } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { ExternalLink, MessageSquare } from "lucide-react"
+import { ExternalLink, MessageSquare, Heart } from "lucide-react"
 
 interface ArticleCardProps {
   article: any
@@ -42,13 +42,21 @@ export default function ArticleCard({ article }: ArticleCardProps) {
         </div>
       </CardContent>
       <CardFooter className="flex justify-between border-t p-4">
-        <Link
-          href={`/article/${article.id}`}
-          className="text-sm flex items-center gap-1 text-muted-foreground hover:text-foreground"
-        >
-          <MessageSquare className="h-4 w-4" />
-          <span>Comments</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/article/${article.id}`}
+            className="text-sm flex items-center gap-1 text-muted-foreground hover:text-foreground"
+          >
+            <MessageSquare className="h-4 w-4" />
+            <span>Comments</span>
+          </Link>
+          
+          <div className="text-sm flex items-center gap-1 text-muted-foreground">
+            <Heart className="h-4 w-4 text-destructive" />
+            <span>{article.likes || 0}</span>
+          </div>
+        </div>
+        
         <Link
           href={article.url}
           target="_blank"

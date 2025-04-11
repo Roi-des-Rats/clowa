@@ -12,6 +12,7 @@ export interface Database {
           image_url: string | null
           created_at: string
           created_by: string
+          likes: number
         }
         Insert: {
           id?: string
@@ -21,6 +22,7 @@ export interface Database {
           image_url?: string | null
           created_at?: string
           created_by: string
+          likes?: number
         }
         Update: {
           id?: string
@@ -30,6 +32,7 @@ export interface Database {
           image_url?: string | null
           created_at?: string
           created_by?: string
+          likes?: number
         }
       }
       tags: {

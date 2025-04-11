@@ -15,7 +15,7 @@ export default async function Home({
     .select(`
       *,
       tags:article_tags(
-        tag:tags(*)
+      tag:tags(*)
       )
     `)
     .order("created_at", { ascending: false })
@@ -67,7 +67,7 @@ export default async function Home({
         <TabsContent value="all" className="space-y-4">
           {articles && articles.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {articles.map((article) => (
+              {articles.map((article: any) => (
                 <ArticleCard key={article.id} article={article} />
               ))}
             </div>
@@ -81,8 +81,8 @@ export default async function Home({
         {popularTags?.map((tag) => (
           <TabsContent key={tag.name} value={tag.name} className="space-y-4">
             {articles
-              ?.filter((article) => article.tags.some((t) => t.tag.name === tag.name))
-              .map((article) => (
+              ?.filter((article: any) => article.tags.some((t: any) => t.tag.name === tag.name))
+              .map((article: any) => (
                 <ArticleCard key={article.id} article={article} />
               ))}
           </TabsContent>
