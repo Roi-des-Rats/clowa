@@ -25,9 +25,12 @@ export default async function Home({
     query = query.contains("tags.tag.name", [searchParams.tag])
   }
 
-  // Apply search filter if provided
+  // Apply search filter if provided - FIXED
   if (searchParams.q) {
-    query = query.or(`title.ilike.%${searchParams.q}%,description.ilike.%${searchParams.q}%`)
+    const searchTerm = searchParams.q.trim();
+    query = query.or(
+      `title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`
+    )
   }
 
   const { data: articles, error } = await query
@@ -36,12 +39,32 @@ export default async function Home({
     console.error("Error fetching articles:", error)
   }
 
-  // Get popular tags
-  const { data: popularTags } = await supabase
-    .from("tags")
-    .select("name, article_tags!inner(*)")
-    .order("article_tags", { ascending: false })
-    .limit(10)
+  // Replace lines 42-57 with this working implementation
+  const { data: tagCounts, error: tagError } = await supabase
+    .from('article_tags')
+    .select('tag_id, tags!inner(id, name)', { count: 'exact' })
+    .limit(1000);  // Get a large sample to work with
+
+  // Process the data client-side
+  const tagMap: Record<string, { id: string, name: string, count: number }> = {};
+
+  // Count occurrences
+  tagCounts?.forEach(item => {
+    const tagId = item.tags.id;
+    if (!tagMap[tagId]) {
+      tagMap[tagId] = {
+        id: tagId,
+        name: item.tags.name,
+        count: 0
+      };
+    }
+    tagMap[tagId].count++;
+  });
+
+  // Convert to array and sort
+  const formattedTags = Object.values(tagMap)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
 
   return (
     <div className="space-y-8">
@@ -50,7 +73,7 @@ export default async function Home({
           <TabsTrigger value="all" className="rounded-full">
             All
           </TabsTrigger>
-          {popularTags?.map((tag) => (
+          {formattedTags.map((tag) => (
             <TabsTrigger key={tag.name} value={tag.name} className="rounded-full">
               {tag.name}
             </TabsTrigger>
@@ -71,7 +94,7 @@ export default async function Home({
           )}
         </TabsContent>
 
-        {popularTags?.map((tag) => (
+        {formattedTags.map((tag) => (
           <TabsContent key={tag.name} value={tag.name} className="space-y-4">
             {articles
               ?.filter((article: any) => article.tags.some((t: any) => t.tag.name === tag.name))

@@ -1,11 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { Search, Plus, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useState, useEffect } from "react"
+import { useState, useEffect, FormEvent } from "react"
 import { useSupabase } from "./supabase-provider"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -19,10 +19,20 @@ import { useRouter } from "next/navigation"
 
 export default function Header() {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { user, isAdmin, supabase } = useSupabase()
   const [username, setUsername] = useState<string>("")
+  const [searchQuery, setSearchQuery] = useState("")
   const router = useRouter()
+
+  // Initialize search box with existing query param
+  useEffect(() => {
+    const currentQuery = searchParams.get('q')
+    if (currentQuery) {
+      setSearchQuery(currentQuery)
+    }
+  }, [searchParams])
 
   // Fetch username from profiles table when user is available
   useEffect(() => {
@@ -53,8 +63,25 @@ export default function Header() {
     if (username) {
       return username
     }
-    // Fallback to email or uuid if username not available
     return ''
+  }
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault()
+    const trimmedQuery = searchQuery.trim()
+    
+    if (trimmedQuery) {
+      // Navigate to home with search query
+      router.push(`/?q=${encodeURIComponent(trimmedQuery)}`)
+    } else {
+      // If search is cleared, go to home without params
+      router.push('/')
+    }
+    
+    // Close mobile menu if open
+    if (isMenuOpen) {
+      setIsMenuOpen(false)
+    }
   }
 
   return (
@@ -70,10 +97,16 @@ export default function Header() {
         </div>
 
         <div className="hidden md:flex md:flex-1 md:items-center md:justify-center md:px-4">
-          <div className="relative w-full max-w-md">
+          <form onSubmit={handleSearch} className="relative w-full max-w-md">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input type="search" placeholder="Search articles..." className="w-full pl-8" />
-          </div>
+            <Input 
+              type="search" 
+              placeholder="Search articles..." 
+              className="w-full pl-8" 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </form>
         </div>
 
         <div className="flex items-center gap-2">
@@ -114,10 +147,16 @@ export default function Header() {
 
       {/* Mobile Search */}
       <div className="md:hidden px-4 pb-3">
-        <div className="relative w-full">
+        <form onSubmit={handleSearch} className="relative w-full">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input type="search" placeholder="Search articles..." className="w-full pl-8" />
-        </div>
+          <Input 
+            type="search" 
+            placeholder="Search articles..." 
+            className="w-full pl-8" 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </form>
       </div>
 
       {/* Mobile Menu */}
