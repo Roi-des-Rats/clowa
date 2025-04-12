@@ -41,12 +41,12 @@ export default function TagSelector({ tags, initialArticles }: TagSelectorProps)
     if (selectedTags.length === 0) {
       setFilteredArticles(initialArticles)
     } else {
-      const filtered = initialArticles.filter(article => 
-        // For each article, check if it has at least one of the selected tags
-        article.tags.some((t: any) => 
-          selectedTags.includes(t.tag.name)
-        )
-      )
+      const filtered = initialArticles.filter(article => {
+        // Check if article has ALL selected tags
+        return selectedTags.every(selectedTag => 
+          article.tags.some((t: any) => t.tag.name === selectedTag)
+        );
+      });
       setFilteredArticles(filtered)
     }
   }, [selectedTags, initialArticles])
