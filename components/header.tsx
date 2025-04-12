@@ -94,7 +94,7 @@ export default function Header() {
   const getUsername = () => {
     if (username) {
       // If username is longer than 10 characters, return the first 10 characters
-      return username.length > 10 ? username.substring(0, 10) + "..." : username
+      return username.length > 15 ? username.substring(0, 15) + "..." : username
     }
     return '...'
   }
@@ -141,14 +141,14 @@ export default function Header() {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8">
+                <Button variant="ghost" className="relative text-primary">
                   {getUsername()}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuItem className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{username || user.email}</p>
+                    <p className="text-sm font-medium leading-none text-primary">{username || user.email}</p>
                     {isAdmin && <p className="text-xs leading-none text-muted-foreground">Admin</p>}
                   </div>
                 </DropdownMenuItem>
@@ -176,21 +176,13 @@ export default function Header() {
         <div className="md:hidden border-t py-4 px-6">
           <nav className="flex flex-col space-y-4">
             {user && (
-              <div className="p-4 border rounded-md mb-2">
+              <div className="rounded-md mb-2">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{username || user.email}</p>
+                  <p className="text-sm font-medium leading-none text-primary">{username || user.email}</p>
                   {isAdmin && <p className="text-xs leading-none text-muted-foreground">Admin</p>}
                 </div>
               </div>
             )}
-            
-            <Link 
-              href="/" 
-              className="flex items-center space-x-2 text-sm"
-              onClick={closeMobileMenu}
-            >
-              <span>Home</span>
-            </Link>
             
             {isAdmin && (
               <Link 
@@ -206,7 +198,7 @@ export default function Header() {
             {user && (
               <Button 
                 variant="ghost" 
-                className="justify-start p-0 h-auto text-sm font-normal" 
+                className="justify-start p-0 h-auto text-sm font-normal hover:bg-transparent" 
                 onClick={() => {
                   handleSignOut();
                   closeMobileMenu();
