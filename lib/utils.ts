@@ -28,3 +28,13 @@ export function truncate(str: string, length: number) {
   }
   return str.slice(0, length) + "..."
 }
+
+/**
+ * Capitalizes the first letter of each word in a string
+ */
+export function capitalizeWords(text: string): string {
+  return text
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+}

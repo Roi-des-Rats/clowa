@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useState, useEffect, FormEvent } from "react"
 import { useSupabase } from "./supabase-provider"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useRouter } from "next/navigation"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { bigelow } from "@/lib/fonts"
 // Create a separate component for search functionality
 function SearchBar() {
   const searchParams = useSearchParams()
@@ -115,9 +115,9 @@ export default function Header() {
           </Button>
           <Link href="/" className="flex items-center gap-2">
             {isMobile ? (
-              <span className="text-xl font-bold">CLOWA</span>
+              <span className={`text-xl font-bold text-foreground underline decoration-primary decoration-2 underline-offset-1 ${bigelow.className} bigelow-rules-header`}>CLOWA</span>
             ) : (
-              <span className="text-xl font-bold">Curated List Of Web Articles</span>
+              <span className={`text-xl font-bold text-foreground ${bigelow.className} bigelow-rules-header`}><span className="underline decoration-primary decoration-2 underline-offset-2">C</span>urated <span className="underline decoration-primary decoration-2 underline-offset-2">L</span>ist <span className="underline decoration-primary decoration-2 underline-offset-2">O</span>f <span className="underline decoration-primary decoration-2 underline-offset-2">W</span>eb <span className="underline decoration-primary decoration-2 underline-offset-2">A</span>rticles</span>
             )}
           </Link>
         </div>

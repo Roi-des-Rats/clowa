@@ -2,7 +2,6 @@ import { createServerSupabaseClient } from "@/lib/supabase"
 import { formatDate, getHostname } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ExternalLink } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import CommentSection from "@/components/comment-section"
@@ -68,7 +67,6 @@ export default async function ArticlePage({
           <Button asChild variant="outline" className="gap-2">
             <Link href={article.url} target="_blank" rel="noopener noreferrer">
               <span>Read Article</span>
-              <ExternalLink className="h-4 w-4" />
             </Link>
           </Button>
           

@@ -74,7 +74,7 @@ export default function LoginPage() {
       })
     } else {
       toast({
-        title: "Success",
+        title: "Success!",
         description: "Check your email for the confirmation link",
       })
     }

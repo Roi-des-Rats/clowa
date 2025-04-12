@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from "react"
 import { useSupabase } from "./supabase-provider"
-import { ThumbsUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-
+import { Heart } from "lucide-react"
 interface CommentLikeButtonProps {
   commentId: string
 }
@@ -119,7 +118,7 @@ export default function CommentLikeButton({ commentId }: CommentLikeButtonProps)
       onClick={handleLike}
       disabled={isLoading}
     >
-      <ThumbsUp className={`h-3.5 w-3.5 ${isLiked ? "fill-primary text-primary" : "text-muted-foreground"}`} />
+      <Heart className={`h-3.5 w-3.5 ${isLiked ? "fill-primary text-primary" : "text-muted-foreground"}`} />
       <span className={isLiked ? "text-primary" : "text-muted-foreground"}>{likes}</span>
     </Button>
   )

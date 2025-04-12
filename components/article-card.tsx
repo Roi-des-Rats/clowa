@@ -2,12 +2,12 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { formatDate, getHostname } from "@/lib/utils"
+import { formatDate, getHostname, capitalizeWords } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { ExternalLink, MessageSquare, Heart } from "lucide-react"
 import { useSupabase } from "@/components/supabase-provider"
 import { useState, useEffect } from "react"
+import { Heart } from "lucide-react"
 
 interface ArticleCardProps {
   article: any
@@ -79,10 +79,10 @@ export default function ArticleCard({ article }: ArticleCardProps) {
           }
           
           {/* Tags */}
-          <div className="flex flex-wrap gap-2 mt-2">
+          <div className="flex flex-wrap gap-1 mt-2">
             {tags.map((tag: any) => (
               <Badge key={tag.id} variant="secondary">
-                {tag.name}
+                #{tag.name}
               </Badge>
             ))}
           </div>
@@ -95,8 +95,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
               href={`/article/${article.id}`}
               className="text-sm flex items-center gap-1 text-muted-foreground hover:text-foreground"
             >
-              <MessageSquare className="h-4 w-4" />
-              <span>Comments</span>
+              <span className="underline">Comments</span>
             </Link>
             
             <ArticleCardLikes articleId={article.id} />
@@ -108,8 +107,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             rel="noopener noreferrer"
             className="text-sm flex items-center gap-1 text-muted-foreground hover:text-foreground"
           >
-            <span>Read</span>
-            <ExternalLink className="h-4 w-4" />
+            <span className="underline">Read</span>
           </Link>
         </div>
       </div>

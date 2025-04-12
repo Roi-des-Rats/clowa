@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useSupabase } from "./supabase-provider"
 import { Button } from "@/components/ui/button"
-import { Trash2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 
@@ -69,7 +68,6 @@ export default function AdminDeleteArticle({ articleId }: AdminDeleteArticleProp
           size="sm" 
           className="gap-2"
         >
-          <Trash2 className="h-4 w-4" />
           <span>Delete Article</span>
         </Button>
       </AlertDialogTrigger>

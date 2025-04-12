@@ -57,6 +57,14 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  .bigelow-rules-header {
+    font-size: 2rem !important;
+  }
+  .bigelow-rules-footer {
+    font-size: 1.2rem !important;
+    letter-spacing: 0.05em !important;
+  }
 }
 
 @layer base {

@@ -86,15 +86,15 @@ export default function TagSelector({ tags, initialArticles }: TagSelectorProps)
 
   return (
     <div>
-      <div className="mb-6 flex flex-wrap gap-2">
+      <div className="mb-4 flex flex-wrap gap-1">
         {tags.map((tag) => (
           <Badge 
             key={tag.id} 
             variant={selectedTags.includes(tag.name) ? "default" : "outline"}
-            className="px-3 py-1 text-sm cursor-pointer hover:bg-primary/90"
+            className="px-3 text-sm cursor-pointer hover:bg-primary/90"
             onClick={() => toggleTag(tag.name)}
           >
-            {tag.name}
+            #{tag.name}
             {selectedTags.includes(tag.name) && <span className="ml-1.5">✕</span>}
           </Badge>
         ))}

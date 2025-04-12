@@ -10,7 +10,6 @@ import { formatDate } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Trash2 } from "lucide-react"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import CommentLikeButton from "@/components/comment-like-button"
 
@@ -230,11 +229,10 @@ export default function CommentSection({ articleId }: { articleId: string }) {
                       <AlertDialogTrigger asChild>
                         <Button 
                           variant="ghost" 
-                          size="icon" 
-                          className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                          size="sm" 
+                          className="opacity-0 group-hover:opacity-100 transition-opacity"
                         >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                          <span className="sr-only">Delete comment</span>
+                          <span className="underline text-destructive">Delete</span>
                         </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
