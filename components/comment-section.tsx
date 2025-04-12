@@ -12,6 +12,7 @@ import Link from "next/link"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Trash2 } from "lucide-react"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
+import CommentLikeButton from "@/components/comment-like-button"
 
 interface Comment {
   id: string
@@ -263,6 +264,11 @@ export default function CommentSection({ articleId }: { articleId: string }) {
                   )}
                 </div>
                 <p className="text-sm">{comment.content}</p>
+                
+                {/* Add the comment like button */}
+                <div className="mt-2">
+                  <CommentLikeButton commentId={comment.id} />
+                </div>
               </div>
             </div>
           ))

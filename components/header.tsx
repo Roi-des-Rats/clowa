@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 import { Search, Plus, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useSupabase } from "./supabase-provider"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -21,11 +21,40 @@ export default function Header() {
   const pathname = usePathname()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { user, isAdmin, supabase } = useSupabase()
+  const [username, setUsername] = useState<string>("")
   const router = useRouter()
+
+  // Fetch username from profiles table when user is available
+  useEffect(() => {
+    const fetchUsername = async () => {
+      if (user) {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('username')
+          .eq('user_id', user.id)
+          .single()
+          
+        if (!error && data?.username) {
+          setUsername(data.username)
+        }
+      }
+    }
+    
+    fetchUsername()
+  }, [user, supabase])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
     router.push("/")
+  }
+
+  // Get first character of username for avatar fallback
+  const getUsername = () => {
+    if (username) {
+      return username
+    }
+    // Fallback to email or uuid if username not available
+    return ''
   }
 
   return (
@@ -36,7 +65,7 @@ export default function Header() {
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-xl font-bold">Clowa</span>
+            <span className="text-xl font-bold">Curated List Of Web Articles</span>
           </Link>
         </div>
 
@@ -60,29 +89,17 @@ export default function Header() {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src={user.user_metadata.avatar_url} alt={user.email || ""} />
-                    <AvatarFallback>{user.email?.charAt(0).toUpperCase()}</AvatarFallback>
-                  </Avatar>
+                <Button variant="ghost" className="relative h-8 w-8">
+                  {getUsername()}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuItem className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{user.email}</p>
+                    <p className="text-sm font-medium leading-none">{username || user.email}</p>
                     {isAdmin && <p className="text-xs leading-none text-muted-foreground">Admin</p>}
                   </div>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/profile">Profile</Link>
-                </DropdownMenuItem>
-                {isAdmin && (
-                  <DropdownMenuItem asChild>
-                    <Link href="/add-article">Add Article</Link>
-                  </DropdownMenuItem>
-                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>Log out</DropdownMenuItem>
               </DropdownMenuContent>

@@ -12,7 +12,6 @@ export interface Database {
           image_url: string | null
           created_at: string
           created_by: string
-          likes: number
         }
         Insert: {
           id?: string
@@ -22,7 +21,6 @@ export interface Database {
           image_url?: string | null
           created_at?: string
           created_by: string
-          likes?: number
         }
         Update: {
           id?: string
@@ -32,7 +30,6 @@ export interface Database {
           image_url?: string | null
           created_at?: string
           created_by?: string
-          likes?: number
         }
       }
       tags: {
@@ -112,6 +109,43 @@ export interface Database {
         Update: {
           user_id?: string
           username?: string
+        }
+      }
+      article_likes: {
+        Row: {
+          id: string
+          user_id: string
+          article_id: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          article_id: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          article_id?: string
+          created_at?: string
+        }
+      }
+      comment_likes: {
+        Row: {
+          comment_id: string
+          user_id: string
+          created_at: string
+        }
+        Insert: {
+          comment_id: string
+          user_id: string
+          created_at?: string
+        }
+        Update: {
+          comment_id?: string
+          user_id?: string
+          created_at?: string
         }
       }
     }

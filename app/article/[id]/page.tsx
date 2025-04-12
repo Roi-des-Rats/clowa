@@ -66,7 +66,7 @@ export default async function ArticlePage({
           </Button>
           
           {/* Like button */}
-          <LikeButton articleId={article.id} initialLikes={article.likes || 0} />
+          <LikeButton articleId={article.id} />
         </div>
       </div>
 

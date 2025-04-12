@@ -45,13 +45,6 @@ export default async function Home({
 
   return (
     <div className="space-y-8">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Curated List Of Web Articles</h1>
-        <p className="text-muted-foreground">
-          Discover the best articles from around the web, curated by our community.
-        </p>
-      </div>
-
       <Tabs defaultValue="all" className="w-full">
         <TabsList className="mb-4 w-full justify-start overflow-x-auto">
           <TabsTrigger value="all" className="rounded-full">
