@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useRouter } from "next/navigation"
-
+import { useIsMobile } from "@/hooks/use-mobile"
 // Create a separate component for search functionality
 function SearchBar() {
   const searchParams = useSearchParams()
@@ -61,9 +61,10 @@ function SearchBar() {
 export default function Header() {
   const pathname = usePathname()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { user, isAdmin, supabase } = useSupabase()
+  const { supabase, user, isAdmin, isLoading: isUserLoading } = useSupabase()
   const [username, setUsername] = useState<string>("")
   const router = useRouter()
+  const isMobile = useIsMobile()
 
   // Fetch username from profiles table when user is available
   useEffect(() => {
@@ -104,24 +105,31 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex justify-center">
+    <header className={`sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ${!isMobile ? 'flex justify-center' : ''}`}>
+      {/* Main header row */}
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <Button variant="ghost" className="md:hidden" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-xl font-bold">Curated List Of Web Articles</span>
+            {isMobile ? (
+              <span className="text-xl font-bold">CLOWA</span>
+            ) : (
+              <span className="text-xl font-bold">Curated List Of Web Articles</span>
+            )}
           </Link>
         </div>
 
-        <div className="hidden md:flex md:flex-1 md:items-center md:justify-center md:px-4">
+        {/* Search bar - now visible on both mobile and desktop */}
+        <div className="flex-1 px-4 max-w-md mx-auto">
           <SearchBar />
         </div>
-
-        <div className="flex items-center gap-2">
+        
+        {/* Desktop user menu - hide on mobile */}
+        <div className="hidden md:flex md:items-center md:gap-2">
           {isAdmin && (
-            <Button asChild variant="ghost" className="hidden md:flex">
+            <Button asChild variant="ghost">
               <Link href="/add-article">
                 <Plus className="h-5 w-5" />
                 <span>Add Article</span>
@@ -153,41 +161,58 @@ export default function Header() {
             </Button>
           )}
         </div>
+        
+        {/* Mobile button only (no dropdown, just the button) */}
+        <div className="md:hidden flex items-center">
+          <Button asChild variant="default" size="sm" className={user ? "hidden" : ""}>
+            <Link href="/login">Sign In</Link>
+          </Button>
+        </div>
       </div>
 
-      {/* Mobile Search */}
-      <div className="md:hidden px-4 pb-3">
-        <SearchBar />
-      </div>
-
-      {/* Mobile Menu */}
+      {/* Mobile Menu - no longer contains search */}
       {isMenuOpen && (
-        <div className="md:hidden border-t">
-          <nav className="flex flex-col p-4 space-y-2">
-            <Link
-              href="/"
-              className={`px-3 py-2 rounded-md ${pathname === "/" ? "bg-accent" : "hover:bg-accent"}`}
+        <div className="md:hidden border-t py-4 px-6">
+          <nav className="flex flex-col space-y-4">
+            {user && (
+              <div className="p-4 border rounded-md mb-2">
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-medium leading-none">{username || user.email}</p>
+                  {isAdmin && <p className="text-xs leading-none text-muted-foreground">Admin</p>}
+                </div>
+              </div>
+            )}
+            
+            <Link 
+              href="/" 
+              className="flex items-center space-x-2 text-sm"
               onClick={closeMobileMenu}
             >
-              Home
+              <span>Home</span>
             </Link>
+            
             {isAdmin && (
-              <Link
-                href="/add-article"
-                className={`px-3 py-2 rounded-md ${pathname === "/add-article" ? "bg-accent" : "hover:bg-accent"}`}
+              <Link 
+                href="/add-article" 
+                className="flex items-center space-x-2 text-sm"
                 onClick={closeMobileMenu}
               >
-                Add Article
+                <Plus className="h-4 w-4" />
+                <span>Add Article</span>
               </Link>
             )}
-            {!user && (
-              <Link
-                href="/login"
-                className={`px-3 py-2 rounded-md ${pathname === "/login" ? "bg-accent" : "hover:bg-accent"}`}
-                onClick={closeMobileMenu}
+            
+            {user && (
+              <Button 
+                variant="ghost" 
+                className="justify-start p-0 h-auto text-sm font-normal" 
+                onClick={() => {
+                  handleSignOut();
+                  closeMobileMenu();
+                }}
               >
-                Sign In
-              </Link>
+                Log out
+              </Button>
             )}
           </nav>
         </div>

@@ -17,7 +17,7 @@ export async function generateTags(title: string, url: string): Promise<string[]
           {
             parts: [
               {
-                text: `Read the HTML page content I give and generate 7 relevant tags from the content and the title, make sure they are relevant to the content itself:\nTitle: ${title}\nContent: ${content}\nONLY OUTPUT THE TAGS, NO OTHER TEXT, Output format: comma-separated list of tags`,
+                text: `Read the HTML page content I give and generate 7 relevant tags from the content and the title, make sure they are relevant to the content itself:\nTitle: ${title}\nContent: ${content}\nONLY OUTPUT THE TAGS, NO OTHER TEXT, Output format: comma-separated list of tags, all characters must be lowercase.`,
               },
             ],
           },

@@ -10,9 +10,8 @@ import { SupabaseProvider } from "@/components/supabase-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Clowa - Curated List Of Web Articles",
-  description: "A curated collection of the best web articles worth reading",
-    generator: 'v0.dev'
+  title: "CLOWA",
+  description: "",
 }
 
 // Loading component for Suspense fallback
