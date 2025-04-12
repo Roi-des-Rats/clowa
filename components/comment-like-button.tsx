@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { useSupabase } from "./supabase-provider"
 import { ThumbsUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 
 interface CommentLikeButtonProps {
   commentId: string
