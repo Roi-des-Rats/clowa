@@ -17,12 +17,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useRouter } from "next/navigation"
 
-export default function Header() {
-  const pathname = usePathname()
+// Create a separate component for search functionality
+function SearchBar() {
   const searchParams = useSearchParams()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { user, isAdmin, supabase } = useSupabase()
-  const [username, setUsername] = useState<string>("")
   const [searchQuery, setSearchQuery] = useState("")
   const router = useRouter()
 
@@ -33,6 +30,40 @@ export default function Header() {
       setSearchQuery(currentQuery)
     }
   }, [searchParams])
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault()
+    const trimmedQuery = searchQuery.trim()
+    
+    if (trimmedQuery) {
+      // Navigate to home with search query
+      router.push(`/?q=${encodeURIComponent(trimmedQuery)}`)
+    } else {
+      // If search is cleared, go to home without params
+      router.push('/')
+    }
+  }
+
+  return (
+    <form onSubmit={handleSearch} className="relative w-full max-w-md">
+      <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+      <Input 
+        type="search" 
+        placeholder="Search articles..." 
+        className="w-full pl-8" 
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+    </form>
+  )
+}
+
+export default function Header() {
+  const pathname = usePathname()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { user, isAdmin, supabase } = useSupabase()
+  const [username, setUsername] = useState<string>("")
+  const router = useRouter()
 
   // Fetch username from profiles table when user is available
   useEffect(() => {
@@ -66,19 +97,7 @@ export default function Header() {
     return ''
   }
 
-  const handleSearch = (e: FormEvent) => {
-    e.preventDefault()
-    const trimmedQuery = searchQuery.trim()
-    
-    if (trimmedQuery) {
-      // Navigate to home with search query
-      router.push(`/?q=${encodeURIComponent(trimmedQuery)}`)
-    } else {
-      // If search is cleared, go to home without params
-      router.push('/')
-    }
-    
-    // Close mobile menu if open
+  const closeMobileMenu = () => {
     if (isMenuOpen) {
       setIsMenuOpen(false)
     }
@@ -97,16 +116,7 @@ export default function Header() {
         </div>
 
         <div className="hidden md:flex md:flex-1 md:items-center md:justify-center md:px-4">
-          <form onSubmit={handleSearch} className="relative w-full max-w-md">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input 
-              type="search" 
-              placeholder="Search articles..." 
-              className="w-full pl-8" 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </form>
+          <SearchBar />
         </div>
 
         <div className="flex items-center gap-2">
@@ -147,16 +157,7 @@ export default function Header() {
 
       {/* Mobile Search */}
       <div className="md:hidden px-4 pb-3">
-        <form onSubmit={handleSearch} className="relative w-full">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input 
-            type="search" 
-            placeholder="Search articles..." 
-            className="w-full pl-8" 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </form>
+        <SearchBar />
       </div>
 
       {/* Mobile Menu */}
@@ -166,7 +167,7 @@ export default function Header() {
             <Link
               href="/"
               className={`px-3 py-2 rounded-md ${pathname === "/" ? "bg-accent" : "hover:bg-accent"}`}
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMobileMenu}
             >
               Home
             </Link>
@@ -174,7 +175,7 @@ export default function Header() {
               <Link
                 href="/add-article"
                 className={`px-3 py-2 rounded-md ${pathname === "/add-article" ? "bg-accent" : "hover:bg-accent"}`}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeMobileMenu}
               >
                 Add Article
               </Link>
@@ -183,7 +184,7 @@ export default function Header() {
               <Link
                 href="/login"
                 className={`px-3 py-2 rounded-md ${pathname === "/login" ? "bg-accent" : "hover:bg-accent"}`}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeMobileMenu}
               >
                 Sign In
               </Link>

@@ -1,4 +1,4 @@
-import type React from "react"
+import React, { Suspense } from 'react'
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
@@ -15,6 +15,19 @@ export const metadata: Metadata = {
     generator: 'v0.dev'
 }
 
+// Loading component for Suspense fallback
+function HeaderSkeleton() {
+  return (
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 h-16">
+      <div className="container flex h-16 items-center justify-between">
+        {/* Simple header loading state */}
+        <div className="w-64 h-6 rounded bg-muted animate-pulse" />
+        <div className="w-32 h-8 rounded bg-muted animate-pulse" />
+      </div>
+    </header>
+  )
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -26,7 +39,9 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <SupabaseProvider>
             <div className="flex min-h-screen flex-col">
-              <Header />
+              <Suspense fallback={<HeaderSkeleton />}>
+                <Header />
+              </Suspense>
               <main className="flex-1 container mx-auto py-6 px-4">{children}</main>
               <footer className="border-t py-4">
                 <div className="container mx-auto text-center text-sm text-muted-foreground">
