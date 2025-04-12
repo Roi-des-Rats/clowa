@@ -129,8 +129,7 @@ export default function AddArticlePage() {
       }
 
       toast({
-        title: "Success",
-        description: "Article added successfully",
+        title: "Article added",
       })
 
       router.push(`/article/${article.id}`)

@@ -44,8 +44,7 @@ export default function AdminDeleteArticle({ articleId }: AdminDeleteArticleProp
       if (error) throw error
 
       toast({
-        title: "Success",
-        description: "Article deleted successfully",
+        title: "Article deleted",
       })
 
       // Redirect to home page

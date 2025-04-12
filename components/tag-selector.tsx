@@ -109,7 +109,7 @@ export default function TagSelector({ tags, initialArticles }: TagSelectorProps)
           </div>
         ) : (
           <div className="text-center py-12">
-            <p className="text-muted-foreground">No articles found with the selected tags.</p>
+            <p className="text-muted-foreground">No articles found.</p>
           </div>
         )}
       </div>
