@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { formatDate, getHostname, capitalizeWords } from "@/lib/utils"
+import { formatDate, getHostname } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { useSupabase } from "@/components/supabase-provider"
