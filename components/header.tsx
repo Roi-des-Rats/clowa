@@ -93,9 +93,10 @@ export default function Header() {
   // Get first character of username for avatar fallback
   const getUsername = () => {
     if (username) {
-      return username
+      // If username is longer than 10 characters, return the first 10 characters
+      return username.length > 10 ? username.substring(0, 10) + "..." : username
     }
-    return ''
+    return '...'
   }
 
   const closeMobileMenu = () => {
@@ -107,7 +108,7 @@ export default function Header() {
   return (
     <header className={`sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ${!isMobile ? 'flex justify-center' : ''}`}>
       {/* Main header row */}
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-2">
           <Button variant="ghost" className="md:hidden" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

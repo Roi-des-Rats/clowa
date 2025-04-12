@@ -9,13 +9,20 @@ import CommentSection from "@/components/comment-section"
 import AdminDeleteArticle from "@/components/admin-delete-article"
 import LikeButton from "@/components/like-button"
 import { notFound } from "next/navigation"
+import type { Database } from "@/lib/database.types"
 
 export default async function ArticlePage({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }> | { id: string }
 }) {
-  const supabase = createServerSupabaseClient()
+  // Await params if it's a promise
+  const paramsObj = params instanceof Promise ? await params : params;
+  
+  // Explicitly type this to match your database type
+  const articleId: any = paramsObj.id;
+  
+  const supabase = await createServerSupabaseClient()
 
   const { data: article, error } = await supabase
     .from("articles")
@@ -25,7 +32,7 @@ export default async function ArticlePage({
         tag:tags(*)
       )
     `)
-    .eq("id", params.id)
+    .eq("id", articleId)
     .single()
 
   if (error || !article) {

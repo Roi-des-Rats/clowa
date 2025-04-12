@@ -29,7 +29,6 @@ export default function AddArticlePage() {
   // Redirect if not admin
   useEffect(() => {
     if (!isUserLoading && (!user || !isAdmin)) {
-      console.log(isUserLoading, user, isAdmin);
       router.push("/")
     }
   }, [isUserLoading, user, isAdmin, router])

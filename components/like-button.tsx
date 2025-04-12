@@ -75,10 +75,6 @@ export default function LikeButton({ articleId }: LikeButtonProps) {
         setLikes(prev => Math.max(0, prev - 1))
         setIsLiked(false)
         
-        toast({
-          title: "Like removed",
-          description: "Your like has been removed from this article",
-        })
       } else {
         // Add like
         const { error } = await supabase
@@ -101,10 +97,6 @@ export default function LikeButton({ articleId }: LikeButtonProps) {
           setLikes(prev => prev + 1)
           setIsLiked(true)
           
-          toast({
-            title: "Article liked",
-            description: "Thanks for liking this article!",
-          })
         }
       }
     } catch (error: any) {

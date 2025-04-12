@@ -5,9 +5,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { tag?: string; q?: string }
+  searchParams: Promise<{ tag?: string; q?: string }> | { tag?: string; q?: string }
 }) {
-  const supabase = createServerSupabaseClient()
+  const searchParamsObj = searchParams ? 
+    (searchParams instanceof Promise ? await searchParams : searchParams) 
+    : {};
+  const searchQuery = searchParamsObj.q;
+  const tagQuery = searchParamsObj.tag;
+  
+  const supabase = await createServerSupabaseClient()
 
   // Build query
   let query = supabase
@@ -21,13 +27,13 @@ export default async function Home({
     .order("created_at", { ascending: false })
 
   // Apply tag filter if provided
-  if (searchParams.tag) {
-    query = query.contains("tags.tag.name", [searchParams.tag])
+  if (tagQuery) {
+    query = query.contains("tags.tag.name", [tagQuery])
   }
 
-  // Apply search filter if provided - FIXED
-  if (searchParams.q) {
-    const searchTerm = searchParams.q.trim();
+  // Apply search filter if provided
+  if (searchQuery) {
+    const searchTerm = searchQuery.trim();
     query = query.or(
       `title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`
     )

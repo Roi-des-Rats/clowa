@@ -125,15 +125,11 @@ export default function CommentSection({ articleId }: { articleId: string }) {
     } else {
       setNewComment("")
       toast({
-        title: "Success",
-        description: "Comment posted successfully",
+        title: "Comment posted",
       })
       
       // Force fetch comments after posting
       await fetchComments()
-      
-      // Alternative: refresh the entire page
-      // window.location.reload()
     }
 
     setIsSubmitting(false)
@@ -154,8 +150,7 @@ export default function CommentSection({ articleId }: { articleId: string }) {
       }
       
       toast({
-        title: "Success",
-        description: "Comment deleted successfully",
+        title: "Comment deleted",
       })
       
       // Manually fetch comments after deletion
