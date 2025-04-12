@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { formatDate, getHostname } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { ExternalLink, MessageSquare, Heart } from "lucide-react"
 import { useSupabase } from "@/components/supabase-provider"
 import { useState, useEffect } from "react"
@@ -43,58 +43,72 @@ export default function ArticleCard({ article }: ArticleCardProps) {
   const tags = article.tags?.map((t: any) => t.tag) || []
 
   return (
-    <Card className="overflow-hidden flex flex-col h-full">
+    <Card className="overflow-hidden flex flex-col sm:flex-row w-full">
+      {/* Image section - take up more space on horizontal layout */}
       {article.image_url && (
-        <div className="relative w-full h-48">
-          <Image src={article.image_url || "/placeholder.svg"} alt={article.title} fill className="object-cover" />
+        <div className="relative w-full h-48 sm:h-auto sm:w-1/3 sm:min-h-[12rem]">
+          <Image 
+            src={article.image_url || "/placeholder.svg"} 
+            alt={article.title} 
+            fill 
+            className="object-cover" 
+          />
         </div>
       )}
-      <CardHeader className="flex flex-col space-y-2">
-        <div className="space-y-1">
+      
+      {/* Content section - takes remaining space */}
+      <div className="flex flex-col justify-between flex-grow p-4 sm:p-6">
+        {/* Header content */}
+        <div className="space-y-3">
           <div className="flex items-center text-sm text-muted-foreground">
             <span>{formatDate(article.created_at)}</span>
             <span className="mx-2">•</span>
             <span>{getHostname(article.url)}</span>
           </div>
+          
           <Link href={`/article/${article.id}`} className="group">
             <h3 className="font-semibold text-lg group-hover:underline line-clamp-2">{article.title}</h3>
           </Link>
-        </div>
-        {article.description && <p className="text-muted-foreground text-sm line-clamp-3">{article.description}</p>}
-      </CardHeader>
-      <CardContent className="flex-grow">
-        <div className="flex flex-wrap gap-2">
-          {tags.map((tag: any) => (
-            <Badge key={tag.id} variant="secondary">
-              {tag.name}
-            </Badge>
-          ))}
-        </div>
-      </CardContent>
-      <CardFooter className="flex justify-between border-t p-4">
-        <div className="flex items-center gap-4">
-          <Link
-            href={`/article/${article.id}`}
-            className="text-sm flex items-center gap-1 text-muted-foreground hover:text-foreground"
-          >
-            <MessageSquare className="h-4 w-4" />
-            <span>Comments</span>
-          </Link>
           
-          {/* Likes count */}
-          <ArticleCardLikes articleId={article.id} />
+          {article.description && 
+            <p className="text-muted-foreground text-sm line-clamp-2">{article.description}</p>
+          }
+          
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mt-2">
+            {tags.map((tag: any) => (
+              <Badge key={tag.id} variant="secondary">
+                {tag.name}
+              </Badge>
+            ))}
+          </div>
         </div>
         
-        <Link
-          href={article.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm flex items-center gap-1 text-muted-foreground hover:text-foreground"
-        >
-          <span>Read</span>
-          <ExternalLink className="h-4 w-4" />
-        </Link>
-      </CardFooter>
+        {/* Footer content */}
+        <div className="flex justify-between items-center mt-4 pt-4 border-t">
+          <div className="flex items-center gap-4">
+            <Link
+              href={`/article/${article.id}`}
+              className="text-sm flex items-center gap-1 text-muted-foreground hover:text-foreground"
+            >
+              <MessageSquare className="h-4 w-4" />
+              <span>Comments</span>
+            </Link>
+            
+            <ArticleCardLikes articleId={article.id} />
+          </div>
+          
+          <Link
+            href={article.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm flex items-center gap-1 text-muted-foreground hover:text-foreground"
+          >
+            <span>Read</span>
+            <ExternalLink className="h-4 w-4" />
+          </Link>
+        </div>
+      </div>
     </Card>
   )
 }
