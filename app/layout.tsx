@@ -45,7 +45,7 @@ export default function RootLayout({
               <main className="flex-1 container mx-auto py-6 px-4">{children}</main>
               <footer className="border-t py-4">
                 <div className="container mx-auto text-center text-sm text-muted-foreground">
-                  © {new Date().getFullYear()} Clowa - Curated List Of Web Articles
+                  © {new Date().getFullYear()} CLOWA by Roi-des-Rats
                 </div>
               </footer>
             </div>
