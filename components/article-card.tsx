@@ -33,8 +33,12 @@ function ArticleCardLikes({ articleId }: { articleId: string }) {
   
   return (
     <div className="text-sm flex items-center gap-1 text-muted-foreground">
-      <Heart className="h-4 w-4 text-destructive" />
-      <span>{likesCount}</span>
+      {likesCount > 0 && (
+        <>
+          <Heart className="h-4 w-4 text-destructive" />
+          <span>{likesCount}</span>
+        </>
+      )}
     </div>
   )
 }
