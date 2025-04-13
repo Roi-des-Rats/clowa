@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { formatDate, getHostname } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
@@ -166,18 +165,6 @@ export default function ArticleCard({ article }: ArticleCardProps) {
 
   return (
     <Card className="overflow-hidden flex flex-col sm:flex-row w-full">
-      {/* Image section - take up more space on horizontal layout */}
-      {article.image_url && (
-        <div className="relative w-full h-48 sm:h-auto sm:w-1/3 sm:min-h-[12rem]">
-          <Image 
-            src={article.image_url || "/placeholder.svg"} 
-            alt={article.title} 
-            fill 
-            className="object-cover" 
-          />
-        </div>
-      )}
-      
       {/* Content section - takes remaining space */}
       <div className="flex flex-col justify-between flex-grow p-4 sm:p-6">
         {/* Header content */}

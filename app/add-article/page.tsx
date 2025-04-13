@@ -18,7 +18,6 @@ export default function AddArticlePage() {
   const [title, setTitle] = useState("")
   const [url, setUrl] = useState("")
   const [description, setDescription] = useState("")
-  const [imageUrl, setImageUrl] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [isGeneratingTags, setIsGeneratingTags] = useState(false)
   const [generatedTags, setGeneratedTags] = useState<string[]>([])
@@ -90,7 +89,6 @@ export default function AddArticlePage() {
           title,
           url,
           description: description || null,
-          image_url: imageUrl || null,
           created_by: user!.id,
         })
         .select()
@@ -185,17 +183,6 @@ export default function AddArticlePage() {
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Brief description of the article"
                 className="min-h-[100px]"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="image-url">Image URL (optional)</Label>
-              <Input
-                id="image-url"
-                type="url"
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-                placeholder="https://example.com/image.jpg"
               />
             </div>
 

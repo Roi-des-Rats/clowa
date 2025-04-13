@@ -3,7 +3,6 @@ import { formatDate, getHostname } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import Image from "next/image"
 import CommentSection from "@/components/comment-section"
 import CuratorDeleteArticle from "@/components/curator-delete-article"
 import LikeButton from "@/components/like-button"
@@ -76,12 +75,6 @@ export default async function ArticlePage({
           <LikeButton articleId={article.id} />
         </div>
       </div>
-
-      {article.image_url && (
-        <div className="relative w-full h-[300px] sm:h-[400px] rounded-lg overflow-hidden mt-4">
-          <Image src={article.image_url} alt={article.title} fill className="object-cover" />
-        </div>
-      )}
 
       {article.description && (
         <div className="prose max-w-none dark:prose-invert mt-6">
