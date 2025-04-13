@@ -166,7 +166,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
   return (
     <Card className="overflow-hidden flex flex-col sm:flex-row w-full">
       {/* Content section - takes remaining space */}
-      <div className="flex flex-col justify-between flex-grow p-4 sm:p-6">
+      <div className="flex flex-col justify-between flex-grow p-4">
         {/* Header content */}
         <div className="space-y-3">
           <div className="flex items-center text-sm text-muted-foreground">
