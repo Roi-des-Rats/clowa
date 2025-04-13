@@ -8,6 +8,7 @@ import { useSupabase } from "@/components/supabase-provider"
 import { useState, useEffect } from "react"
 import { ExternalLinkIcon, Heart } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface ArticleCardProps {
   article: any
@@ -20,7 +21,7 @@ function ArticleCardLikes({ articleId }: { articleId: string }) {
   const [isLiked, setIsLiked] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const { toast } = useToast()
-  
+
   useEffect(() => {
     const fetchLikes = async () => {
       try {
@@ -162,7 +163,7 @@ function ArticleCardComments({ articleId }: { articleId: string }) {
 
 export default function ArticleCard({ article }: ArticleCardProps) {
   const tags = article.tags?.map((t: any) => t.tag) || []
-
+  const isMobile = useIsMobile()
   return (
     <Card className="overflow-hidden flex flex-col sm:flex-row w-full">
       {/* Content section - takes remaining space */}
@@ -180,13 +181,15 @@ export default function ArticleCard({ article }: ArticleCardProps) {
           </Link>
           
           {/* Tags */}
-          <div className="flex flex-wrap gap-1 mt-2">
-            {tags.map((tag: any) => (
-              <Badge key={tag.id} variant="secondary">
-                #{tag.name}
-              </Badge>
-            ))}
-          </div>
+          {!isMobile && (
+            <div className="flex flex-wrap gap-1 mt-2">
+              {tags.map((tag: any) => (
+                <Badge key={tag.id} variant="secondary">
+                  #{tag.name}
+                </Badge>
+              ))}
+            </div>
+          )}
         </div>
         
         {/* Footer content */}

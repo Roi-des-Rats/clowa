@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { bigelow } from "@/lib/fonts"
 // Create a separate component for search functionality
-function SearchBar() {
+function SearchBar({ className }: { className?: string }) {
   const searchParams = useSearchParams()
   const [searchQuery, setSearchQuery] = useState("")
   const router = useRouter()
@@ -50,7 +50,7 @@ function SearchBar() {
       <Input 
         type="search" 
         placeholder="Search articles..." 
-        className="w-full pl-8" 
+        className={`w-full pl-8`} 
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
@@ -123,9 +123,13 @@ export default function Header() {
         </div>
 
         {/* Search bar - now visible on both mobile and desktop */}
-        <div className="flex-1 px-4 max-w-md mx-auto">
-          <SearchBar />
-        </div>
+        {!isMobile ? (
+          <div className="flex-1 px-4 max-w-md mx-auto">
+            <SearchBar />
+          </div>
+        ) : (
+          <div className="hidden"></div>
+        )}
         
         {/* Desktop user menu - hide on mobile */}
         <div className="hidden md:flex md:items-center md:gap-2">
@@ -164,7 +168,20 @@ export default function Header() {
         </div>
         
         {/* Mobile button only (no dropdown, just the button) */}
-        <div className="md:hidden flex items-center">
+        <div className="md:hidden flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <Search className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-64">
+              <DropdownMenuItem className="w-full p-2 h-auto">
+                <SearchBar className="w-full" />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          
           <Button asChild variant="default" size="sm" className={user ? "hidden" : ""}>
             <Link href="/login">Sign In</Link>
           </Button>
