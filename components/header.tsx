@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
-import { Search, Plus, Menu, X } from "lucide-react"
+import { Search, Plus, Menu, X, Info } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useState, useEffect, FormEvent } from "react"
@@ -149,6 +149,10 @@ export default function Header() {
             </Button>
           )}
 
+          <Link href="/about" className="flex items-center space-x-4 text-sm mx-2" onClick={closeMobileMenu}>
+            <span className="underline">About</span>
+          </Link>
+
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -214,6 +218,10 @@ export default function Header() {
                 <span>Add Article</span>
               </Link>
             )}
+
+            <Link href="/about" className="flex items-center space-x-2 text-sm" onClick={closeMobileMenu}>
+              <span className="underline">About</span>
+            </Link>
             
             {user && (
               <Button 
