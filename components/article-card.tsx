@@ -43,6 +43,37 @@ function ArticleCardLikes({ articleId }: { articleId: string }) {
   )
 }
 
+// Create a client component for comment counts
+function ArticleCardComments({ articleId }: { articleId: string }) {
+  const { supabase } = useSupabase()
+  const [commentsCount, setCommentsCount] = useState(0)
+  
+  useEffect(() => {
+    const fetchComments = async () => {
+      const { data, error, count } = await supabase
+        .from('comments')
+        .select('id', { count: 'exact' })
+        .eq('article_id', articleId)
+      
+      if (!error) {
+        setCommentsCount(count || 0)
+      }
+    }
+    
+    fetchComments()
+  }, [supabase, articleId])
+  
+  return (
+    <div className="text-sm flex items-center text-muted-foreground">
+      {commentsCount > 0 && (
+        <>
+          <span>{commentsCount}</span>
+        </>
+      )}
+    </div>
+  )
+}
+
 export default function ArticleCard({ article }: ArticleCardProps) {
   const tags = article.tags?.map((t: any) => t.tag) || []
 
@@ -93,11 +124,11 @@ export default function ArticleCard({ article }: ArticleCardProps) {
           <div className="flex items-center gap-4">
             <Link
               href={`/article/${article.id}`}
-              className="text-sm flex items-center gap-1 text-muted-foreground hover:text-foreground"
+              className="text-sm flex gap-1 items-center text-muted-foreground hover:text-foreground"
             >
               <span className="underline">Comments</span>
+              <ArticleCardComments articleId={article.id} />
             </Link>
-            
             <ArticleCardLikes articleId={article.id} />
           </div>
           
