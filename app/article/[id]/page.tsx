@@ -9,6 +9,7 @@ import AdminDeleteArticle from "@/components/admin-delete-article"
 import LikeButton from "@/components/like-button"
 import { notFound } from "next/navigation"
 import type { Database } from "@/lib/database.types"
+import { ExternalLinkIcon } from "lucide-react"
 
 export default async function ArticlePage({
   params,
@@ -64,9 +65,10 @@ export default async function ArticlePage({
         </div>
         
         <div className="flex justify-between items-center">
-          <Button asChild variant="outline" className="gap-2">
+          <Button asChild variant="outline" className="gap-1 border-primary">
             <Link href={article.url} target="_blank" rel="noopener noreferrer">
-              <span>Read Article</span>
+              <span className="underline">Go to the Article Page</span>
+              <ExternalLinkIcon className="w-4 h-4" />
             </Link>
           </Button>
           
