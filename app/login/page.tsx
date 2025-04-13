@@ -18,6 +18,7 @@ export default function LoginPage() {
   const [username, setUsername] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [isResettingPassword, setIsResettingPassword] = useState(false)
   const { supabase } = useSupabase()
   const router = useRouter()
   const { toast } = useToast()
@@ -85,6 +86,44 @@ export default function LoginPage() {
     setIsLoading(false)
   }
 
+  const handleForgotPassword = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    
+    if (!email) {
+      toast({
+        title: "Email required",
+        description: "Please enter your email address to reset your password",
+        variant: "destructive",
+      })
+      return
+    }
+    
+    setIsResettingPassword(true)
+    
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      })
+      
+      if (error) {
+        throw error
+      }
+      
+      toast({
+        title: "Password reset email sent",
+        description: "Check your email for a password reset link",
+      })
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to send password reset email",
+        variant: "destructive",
+      })
+    } finally {
+      setIsResettingPassword(false)
+    }
+  }
+
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-16rem)]">
       <Card className="w-full max-w-md">
@@ -120,6 +159,16 @@ export default function LoginPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
+                </div>
+                <div className="text-right">
+                  <Button 
+                    variant="link" 
+                    className="p-0 h-auto text-xs"
+                    onClick={handleForgotPassword}
+                    disabled={isResettingPassword}
+                  >
+                    {isResettingPassword ? "Sending reset link..." : "Forgot your password?"}
+                  </Button>
                 </div>
               </CardContent>
               <CardFooter>
