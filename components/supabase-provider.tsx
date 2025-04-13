@@ -10,7 +10,7 @@ import type { Database } from "@/lib/database.types"
 type SupabaseContext = {
   supabase: SupabaseClient<Database>
   user: User | null
-  isAdmin: boolean
+  isCurator: boolean
   isLoading: boolean
 }
 
@@ -18,7 +18,7 @@ const Context = createContext<SupabaseContext | undefined>(undefined)
 
 export function SupabaseProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
-  const [isAdmin, setIsAdmin] = useState<boolean>(false)
+  const [isCurator, setIsCurator] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const supabase = createClientComponentClient<Database>()
 
@@ -30,9 +30,9 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
       setUser(session?.user ?? null)
 
       if (session?.user) {
-        const { data } = await supabase.from("user_roles").select("is_admin").eq("user_id", session.user.id).single()
+        const { data } = await supabase.from("user_roles").select("is_curator").eq("user_id", session.user.id).single()
 
-        setIsAdmin(data?.is_admin ?? false)
+        setIsCurator(data?.is_curator ?? false)
       }
 
       setIsLoading(false)
@@ -48,14 +48,14 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
       if (session?.user) {
         supabase
           .from("user_roles")
-          .select("is_admin")
+          .select("is_curator")
           .eq("user_id", session.user.id)
           .single()
           .then(({ data }) => {
-            setIsAdmin(data?.is_admin ?? false)
+            setIsCurator(data?.is_curator ?? false)
           })
       } else {
-        setIsAdmin(false)
+        setIsCurator(false)
       }
     })
 
@@ -64,7 +64,7 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
     }
   }, [supabase])
 
-  return <Context.Provider value={{ supabase, user, isAdmin, isLoading }}>{children}</Context.Provider>
+  return <Context.Provider value={{ supabase, user, isCurator, isLoading }}>{children}</Context.Provider>
 }
 
 export const useSupabase = () => {

@@ -86,15 +86,15 @@ export interface Database {
       user_roles: {
         Row: {
           user_id: string
-          is_admin: boolean
+          is_curator: boolean
         }
         Insert: {
           user_id: string
-          is_admin?: boolean
+          is_curator?: boolean
         }
         Update: {
           user_id?: string
-          is_admin?: boolean
+          is_curator?: boolean
         }
       }
       profiles: {

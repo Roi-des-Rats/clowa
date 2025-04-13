@@ -7,17 +7,17 @@ import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 
-interface AdminDeleteArticleProps {
+interface CuratorDeleteArticleProps {
   articleId: string
 }
 
-export default function AdminDeleteArticle({ articleId }: AdminDeleteArticleProps) {
-  const { supabase, isAdmin } = useSupabase()
+export default function CuratorDeleteArticle({ articleId }: CuratorDeleteArticleProps) {
+  const { supabase, isCurator } = useSupabase()
   const [isDeleting, setIsDeleting] = useState(false)
   const router = useRouter()
   const { toast } = useToast()
 
-  if (!isAdmin) return null
+  if (!isCurator) return null
 
   const handleDeleteArticle = async () => {
     setIsDeleting(true)

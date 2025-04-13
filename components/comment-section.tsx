@@ -22,7 +22,7 @@ interface Comment {
 }
 
 export default function CommentSection({ articleId }: { articleId: string }) {
-  const { supabase, user, isAdmin, isLoading } = useSupabase()
+  const { supabase, user, isCurator, isLoading } = useSupabase()
   const [comments, setComments] = useState<Comment[]>([])
   const [newComment, setNewComment] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -223,8 +223,8 @@ export default function CommentSection({ articleId }: { articleId: string }) {
                     <span className="text-xs text-muted-foreground">{formatDate(comment.created_at)}</span>
                   </div>
                   
-                  {/* Admin delete button */}
-                  {isAdmin && (
+                  {/* Curator delete button */}
+                  {isCurator && (
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button 

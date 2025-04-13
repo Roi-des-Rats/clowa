@@ -22,16 +22,16 @@ export default function AddArticlePage() {
   const [isLoading, setIsLoading] = useState(false)
   const [isGeneratingTags, setIsGeneratingTags] = useState(false)
   const [generatedTags, setGeneratedTags] = useState<string[]>([])
-  const { supabase, user, isAdmin, isLoading: isUserLoading } = useSupabase()
+  const { supabase, user, isCurator, isLoading: isUserLoading } = useSupabase()
   const router = useRouter()
   const { toast } = useToast()
 
-  // Redirect if not admin
+  // Redirect if not Curator
   useEffect(() => {
-    if (!isUserLoading && (!user || !isAdmin)) {
+    if (!isUserLoading && (!user || !isCurator)) {
       router.push("/")
     }
-  }, [isUserLoading, user, isAdmin, router])
+  }, [isUserLoading, user, isCurator, router])
 
   const handleGenerateTags = async () => {
     if (!title || !url) {

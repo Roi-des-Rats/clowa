@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
 import CommentSection from "@/components/comment-section"
-import AdminDeleteArticle from "@/components/admin-delete-article"
+import CuratorDeleteArticle from "@/components/curator-delete-article"
 import LikeButton from "@/components/like-button"
 import { notFound } from "next/navigation"
 import type { Database } from "@/lib/database.types"
@@ -52,8 +52,8 @@ export default async function ArticlePage({
             </div>
           </div>
           
-          {/* Admin delete button */}
-          <AdminDeleteArticle articleId={article.id} />
+          {/* Curator delete button */}
+          <CuratorDeleteArticle articleId={article.id} />
         </div>
         
         <div className="flex flex-wrap gap-2">

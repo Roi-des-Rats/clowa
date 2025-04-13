@@ -61,7 +61,7 @@ function SearchBar() {
 export default function Header() {
   const pathname = usePathname()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { supabase, user, isAdmin, isLoading: isUserLoading } = useSupabase()
+  const { supabase, user, isCurator, isLoading: isUserLoading } = useSupabase()
   const [username, setUsername] = useState<string>("")
   const router = useRouter()
   const isMobile = useIsMobile()
@@ -129,7 +129,7 @@ export default function Header() {
         
         {/* Desktop user menu - hide on mobile */}
         <div className="hidden md:flex md:items-center md:gap-2">
-          {isAdmin && (
+          {isCurator && (
             <Button asChild variant="ghost">
               <Link href="/add-article">
                 <Plus className="h-5 w-5" />
@@ -149,7 +149,7 @@ export default function Header() {
                 <DropdownMenuItem className="font-normal">
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium leading-none text-primary">{username || user.email}</p>
-                    {isAdmin && <p className="text-xs leading-none text-muted-foreground">Admin</p>}
+                    {isCurator && <p className="text-xs leading-none text-muted-foreground">Curator</p>}
                   </div>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -179,12 +179,12 @@ export default function Header() {
               <div className="rounded-md mb-2">
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none text-primary">{username || user.email}</p>
-                  {isAdmin && <p className="text-xs leading-none text-muted-foreground">Admin</p>}
+                  {isCurator && <p className="text-xs leading-none text-muted-foreground">Curator</p>}
                 </div>
               </div>
             )}
             
-            {isAdmin && (
+            {isCurator && (
               <Link 
                 href="/add-article" 
                 className="flex items-center space-x-2 text-sm"
