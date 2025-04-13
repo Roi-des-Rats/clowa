@@ -192,10 +192,6 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             <h3 className="font-semibold text-lg group-hover:underline line-clamp-2">{article.title}</h3>
           </Link>
           
-          {article.description && 
-            <p className="text-muted-foreground text-sm line-clamp-2">{article.description}</p>
-          }
-          
           {/* Tags */}
           <div className="flex flex-wrap gap-1 mt-2">
             {tags.map((tag: any) => (
