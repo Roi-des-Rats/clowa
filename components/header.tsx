@@ -61,6 +61,7 @@ function SearchBar({ className }: { className?: string }) {
 export default function Header() {
   const pathname = usePathname()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
   const { supabase, user, isCurator, isLoading: isUserLoading } = useSupabase()
   const [username, setUsername] = useState<string>("")
   const router = useRouter()
@@ -105,6 +106,12 @@ export default function Header() {
     }
   }
 
+  const closeSearchMenu = () => {
+    if (isSearchOpen) {
+      setIsSearchOpen(false)
+    }
+  }
+
   return (
     <header className={`sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ${!isMobile ? 'flex justify-center' : ''}`}>
       {/* Main header row */}
@@ -122,7 +129,7 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Search bar - now visible on both mobile and desktop */}
+        {/* Search bar - visible only on desktop */}
         {!isMobile ? (
           <div className="flex-1 px-4 max-w-md mx-auto">
             <SearchBar />
@@ -167,20 +174,16 @@ export default function Header() {
           )}
         </div>
         
-        {/* Mobile button only (no dropdown, just the button) */}
+        {/* Mobile buttons */}
         <div className="md:hidden flex items-center gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm">
-                <Search className="h-5 w-5" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-64">
-              <DropdownMenuItem className="w-full p-2 h-auto">
-                <SearchBar className="w-full" />
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {/* Replace dropdown with button toggle */}
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => setIsSearchOpen(!isSearchOpen)}
+          >
+            {isSearchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+          </Button>
           
           <Button asChild variant="default" size="sm" className={user ? "hidden" : ""}>
             <Link href="/login">Sign In</Link>
@@ -188,7 +191,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu - no longer contains search */}
+      {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden border-t py-4 px-6">
           <nav className="flex flex-col space-y-4">
@@ -225,6 +228,16 @@ export default function Header() {
               </Button>
             )}
           </nav>
+        </div>
+      )}
+
+      {/* Search Menu - similar to mobile menu */}
+      {isSearchOpen && (
+        <div className="md:hidden border-t py-4 px-6">
+          <div className="mb-4">
+            <SearchBar />
+          </div>
+          {/* Add some recent searches or popular tags here if needed */}
         </div>
       )}
     </header>
