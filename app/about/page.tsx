@@ -32,23 +32,17 @@ export default async function AboutPage() {
       
       <section className="space-y-4">
         <h2 className="text-2xl font-bold tracking-tight">Curators List</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <ul className="gap-4 list-disc list-inside">
           {curators && curators.length > 0 ? (
             curators.map((curator) => (
-              <Card key={curator.user_id}>
-                <CardContent className="pt-6">
-                  <div className="flex flex-col space-y-2">
-                    <h3 className="font-medium text-lg">
-                      {curator.profiles?.username}
-                    </h3>
-                  </div>
-                </CardContent>
-              </Card>
+                <li key={curator.user_id} className="font-medium text-lg">
+                    <span className="text-primary">{curator.profiles?.username}</span>
+                </li>
             ))
           ) : (
             <p className="text-muted-foreground col-span-2">No curators found.</p>
           )}
-        </div>
+        </ul>
       </section>
       
       <section className="space-y-4">
