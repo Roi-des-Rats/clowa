@@ -1,6 +1,6 @@
 import { createServerSupabaseClient } from "@/lib/supabase"
 import ArticleCard from "@/components/article-card"
-import TagSelector from "@/components/tag-selector"
+import MainContent from "@/components/main-content"
 
 export default async function Home({
   searchParams,
@@ -90,7 +90,7 @@ export default async function Home({
 
     return (
       <div className="space-y-8">
-        <TagSelector tags={formattedTags} initialArticles={filteredArticles || []} />
+        <MainContent tags={formattedTags} initialArticles={filteredArticles || []} />
       </div>
     );
   } catch (err) {

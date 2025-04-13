@@ -13,12 +13,12 @@ type Tag = {
 
 type Article = any
 
-interface TagSelectorProps {
+interface MainContentProps {
   tags: Tag[]
   initialArticles: Article[]
 }
 
-export default function TagSelector({ tags, initialArticles }: TagSelectorProps) {
+export default function MainContent({ tags, initialArticles }: MainContentProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [selectedTags, setSelectedTags] = useState<string[]>([])

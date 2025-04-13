@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { useSupabase } from "@/components/supabase-provider"
 import { useState, useEffect } from "react"
-import { Heart } from "lucide-react"
+import { ExternalLinkIcon, Heart } from "lucide-react"
 
 interface ArticleCardProps {
   article: any
@@ -107,7 +107,8 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             rel="noopener noreferrer"
             className="text-sm flex items-center gap-1 text-muted-foreground hover:text-foreground"
           >
-            <span className="underline">Read</span>
+            <span className="underline">Article Page</span>
+            <ExternalLinkIcon className="w-4 h-4" />
           </Link>
         </div>
       </div>
