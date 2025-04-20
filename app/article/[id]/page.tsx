@@ -19,7 +19,7 @@ export default async function ArticlePage({
   const paramsObj = params instanceof Promise ? await params : params;
   
   // Explicitly type this to match your database type
-  const articleId: any = paramsObj.id;
+  const articleId: any = paramsObj.id
   
   const supabase = await createServerSupabaseClient()
 
