@@ -9,9 +9,18 @@ import { useState, useEffect } from "react"
 import { ExternalLinkIcon, Heart } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { Skeleton } from "./ui/skeleton"
 
 interface ArticleCardProps {
   article: any
+}
+
+export function ArticleCardSkeleton() {
+  return (
+    <Card className="overflow-hidden flex flex-col sm:flex-row w-full">
+      <Skeleton className="w-full h-40" />
+    </Card>
+  )
 }
 
 // Create a client component for likes display
@@ -161,7 +170,7 @@ function ArticleCardComments({ articleId }: { articleId: string }) {
   )
 }
 
-export default function ArticleCard({ article }: ArticleCardProps) {
+export function ArticleCard({ article }: ArticleCardProps) {
   const tags = article.tags?.map((t: any) => t.tag) || []
   const isMobile = useIsMobile()
   return (

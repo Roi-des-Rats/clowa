@@ -1,10 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { Badge } from "@/components/ui/badge"
-import ArticleCard from "@/components/article-card"
+import { ArticleCard, ArticleCardSkeleton } from "@/components/article-card"
 import { useRouter, useSearchParams } from "next/navigation"
-
 type Tag = {
   id: string
   name: string
@@ -101,9 +100,10 @@ export default function MainContent({ tags, initialArticles }: MainContentProps)
       </div>
 
       <div className="space-y-4">
-        {filteredArticles.length > 0 ? (
-          <div className="flex flex-col gap-4">
-            {filteredArticles.map((article: any) => (
+        <Suspense fallback={<ArticleCardSkeleton />}>
+          {filteredArticles.length > 0 ? (
+            <div className="flex flex-col gap-4">
+              {filteredArticles.map((article: any) => (
               <ArticleCard key={article.id} article={article} />
             ))}
           </div>
@@ -112,6 +112,7 @@ export default function MainContent({ tags, initialArticles }: MainContentProps)
             <p className="text-muted-foreground">No articles found.</p>
           </div>
         )}
+        </Suspense>
       </div>
     </div>
   )

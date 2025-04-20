@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useSupabase } from "./supabase-provider"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -211,12 +211,11 @@ export default function CommentSection({ articleId }: { articleId: string }) {
       )}
 
       <div className="space-y-6">
-        {isLoadingComments ? (
-          <CommentSkeleton />
-        ) : comments.length > 0 ? (
-          comments.map((comment) => (
-            <div key={comment.id} className="flex gap-4 group">
-              <div className="space-y-1 w-full">
+        <Suspense fallback={<CommentSkeleton />}>
+          {comments.length > 0 ? (
+            comments.map((comment) => (
+              <div key={comment.id} className="flex gap-4 group">
+                <div className="space-y-1 w-full">
                 <div className="flex items-center gap-2 justify-between">
                   <div className="flex items-center gap-2">
                     <span className="font-medium">{comment.username}</span>
@@ -262,14 +261,15 @@ export default function CommentSection({ articleId }: { articleId: string }) {
                 <div className="mt-2">
                   <CommentLikeButton commentId={comment.id} />
                 </div>
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">No comments yet. Be the first to comment!</p>
             </div>
-          ))
-        ) : (
-          <div className="text-center py-8">
-            <p className="text-muted-foreground">No comments yet. Be the first to comment!</p>
-          </div>
-        )}
+          )}
+        </Suspense>
       </div>
     </div>
   )
