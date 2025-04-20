@@ -36,7 +36,9 @@ export default async function AboutPage() {
           {curators && curators.length > 0 ? (
             curators.map((curator) => (
                 <li key={curator.user_id} className="font-medium text-lg">
+                  <Link href={`/posts/${curator.profiles?.username}`}>
                     <span className="text-primary">{curator.profiles?.username}</span>
+                  </Link>
                 </li>
             ))
           ) : (

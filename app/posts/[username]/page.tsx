@@ -1,7 +1,8 @@
 import { createServerSupabaseClient } from "@/lib/supabase"
-import ArticleCard from "@/components/article-card"
+import { ArticleCard, ArticleCardSkeleton } from "@/components/article-card"
 import { notFound } from "next/navigation"
 import { bigelow } from "@/lib/fonts"
+import { Suspense } from "react"
 
 export default async function UserPostsPage({
   params,
@@ -51,17 +52,19 @@ export default async function UserPostsPage({
         </h1>
       </div>
 
-      {articles.length > 0 ? (
-        <div className="space-y-6">
-          {articles.map((article) => (
-            <ArticleCard key={article.id} article={article} />
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-12 border rounded-lg">
-          <p className="text-muted-foreground">This curator hasn't posted any articles yet.</p>
-        </div>
-      )}
+      <Suspense fallback={<ArticleCardSkeleton />}>
+        {articles.length > 0 ? (
+          <div className="space-y-6">
+            {articles.map((article) => (
+              <ArticleCard key={article.id} article={article} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12 border rounded-lg">
+            <p className="text-muted-foreground">This curator hasn't posted any articles yet.</p>
+          </div>
+        )}
+      </Suspense>
     </div>
   )
 }

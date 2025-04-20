@@ -12,7 +12,14 @@ import { useIsMobile } from "@/hooks/use-mobile"
 import { Skeleton } from "./ui/skeleton"
 
 interface ArticleCardProps {
-  article: any
+  article: {
+    id: string
+    title: string
+    created_at: string
+    url: string
+    profiles: { username: string }
+    tags: { tag: { id: string; name: string } }[]
+  }
 }
 
 export function ArticleCardSkeleton() {
@@ -170,7 +177,7 @@ function ArticleCardComments({ articleId }: { articleId: string }) {
   )
 }
 
-export function ArticleCard({ article }: ArticleCardProps) {
+export function ArticleCard({ article }: { article: ArticleCardProps }) {
   const tags = article.tags?.map((t: any) => t.tag) || []
   const isMobile = useIsMobile()
   return (
@@ -179,13 +186,29 @@ export function ArticleCard({ article }: ArticleCardProps) {
       <div className="flex flex-col justify-between flex-grow p-4">
         {/* Header content */}
         <div className="space-y-3">
-          <div className="flex items-center text-sm text-muted-foreground">
-            <span>{formatDate(article.created_at)}</span>
-            <span className="mx-2">•</span>
-            <span>{getHostname(article.url)}</span>
-          </div>
-          
-          <Link href={`/article/${article.id}`} className="group">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center text-sm text-muted-foreground">
+              <span>{formatDate(article.created_at)}</span>
+              <span className="mx-2">•</span>
+              <span>{getHostname(article.url)}</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              {/* Add link to user's posts */}
+              {article.profiles?.username && (
+                <>
+                  <span>Posted by:</span>
+                  <Link 
+                    href={`/posts/${article.profiles.username}`}
+                    className="underline"
+                  >
+                    {article.profiles.username}
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>         
+
+          <Link href={`${article.url}`} target="_blank" rel="noopener noreferrer" className="group">
             <h3 className="font-semibold text-lg group-hover:underline line-clamp-2">{article.title}</h3>
           </Link>
           

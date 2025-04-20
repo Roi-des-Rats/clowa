@@ -66,7 +66,7 @@ export default async function ArticlePage({
         <div className="flex justify-between items-center">
           <Button asChild variant="outline" className="gap-1 border-primary">
             <Link href={article.url} target="_blank" rel="noopener noreferrer">
-              <span className="underline">Go to the Article Page</span>
+              <span className="underline">Article Page</span>
               <ExternalLinkIcon className="w-4 h-4" />
             </Link>
           </Button>

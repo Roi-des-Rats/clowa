@@ -16,13 +16,16 @@ export default async function Home({
   const supabase = await createServerSupabaseClient()
 
   try {
-    // First, get all articles without filtering
+    // Updated query to include profile information
     const { data: allArticles, error: allArticlesError } = await supabase
       .from("articles")
       .select(`
         *,
         tags:article_tags(
-        tag:tags(*)
+          tag:tags(*)
+        ),
+        profiles!created_by(
+          username
         )
       `)
       .order("created_at", { ascending: false });

@@ -104,7 +104,7 @@ export default function MainContent({ tags, initialArticles }: MainContentProps)
           {filteredArticles.length > 0 ? (
             <div className="flex flex-col gap-4">
               {filteredArticles.map((article: any) => (
-              <ArticleCard key={article.id} article={article} />
+              <ArticleCard key={article.id} article={article} profile={article.profiles} />
             ))}
           </div>
         ) : (
