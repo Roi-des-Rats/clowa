@@ -9,6 +9,34 @@ import LikeButton from "@/components/like-button"
 import { notFound } from "next/navigation"
 import type { Database } from "@/lib/database.types"
 import { ExternalLinkIcon } from "lucide-react"
+import type { Metadata } from "next"
+
+// Add metadata generation function
+export async function generateMetadata({ 
+  params 
+}: { 
+  params: { id: string } 
+}): Promise<Metadata> {
+  const supabase = await createServerSupabaseClient()
+  
+  // Fetch just the title for metadata
+  const { data: article, error } = await supabase
+    .from("articles")
+    .select("title")
+    .eq("id", params.id)
+    .single()
+  
+  if (error || !article) {
+    return {
+      title: "CLOWA ! Article Not Found"
+    }
+  }
+  
+  return {
+    title: `CLOWA | ${article.title}`,
+    description: article.title
+  }
+}
 
 export default async function ArticlePage({
   params,
