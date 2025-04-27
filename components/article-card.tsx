@@ -192,8 +192,9 @@ export function ArticleCard({ article }: { article: ArticleCardProps }) {
               <span className="mx-2">•</span>
               <span>{getHostname(article.url)}</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              {/* Add link to user's posts */}
+            {!isMobile && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                {/* Add link to user's posts */}
               {article.profiles?.username && (
                 <>
                   <span>Posted by:</span>
@@ -206,6 +207,7 @@ export function ArticleCard({ article }: { article: ArticleCardProps }) {
                 </>
               )}
             </div>
+            )}
           </div>         
 
           <Link href={`${article.url}`} target="_blank" rel="noopener noreferrer" className="group">

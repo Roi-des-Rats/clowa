@@ -242,9 +242,7 @@ export default function Header() {
       {/* Search Menu - similar to mobile menu */}
       {isSearchOpen && (
         <div className="md:hidden border-t py-4 px-6">
-          <div className="mb-4">
-            <SearchBar />
-          </div>
+          <SearchBar />
           {/* Add some recent searches or popular tags here if needed */}
         </div>
       )}
