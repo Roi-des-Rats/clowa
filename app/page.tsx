@@ -1,6 +1,6 @@
 import { createServerSupabaseClient } from "@/lib/supabase"
-import ArticleCard from "@/components/article-card"
-import MainContent from "@/components/main-content"
+import React, { Suspense } from "react"
+const MainContent = React.lazy(() => import("@/components/main-content"))
 
 export default async function Home({
   searchParams,
@@ -93,7 +93,13 @@ export default async function Home({
 
     return (
       <div className="space-y-8">
-        <MainContent tags={formattedTags} initialArticles={filteredArticles || []} />
+        <Suspense fallback={
+          <div className="space-y-4">
+            <div className="animate-pulse h-32 bg-muted" />
+          </div>
+        }>
+          <MainContent tags={formattedTags} initialArticles={filteredArticles || []} />
+        </Suspense>
       </div>
     );
   } catch (err) {
