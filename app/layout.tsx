@@ -33,13 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${oldStandardTT.className} text-[1.2rem]`} suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link
-          rel="apple-touch-icon"
-          href="/apple-touch-icon.png"
-          type="image/png"
-          sizes="180x180"
-        />
+        <meta name="apple-mobile-web-app-title" content="CLOWA" />
       </head>
       <body className="min-h-screen bg-background">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
