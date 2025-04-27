@@ -6,10 +6,26 @@ import { Toaster } from "@/components/ui/toaster"
 import Header from "@/components/header"
 import { SupabaseProvider } from "@/components/supabase-provider"
 import { bigelow, oldStandardTT } from "@/lib/fonts"
+import { MetadataRoute } from 'next'
 
 export const metadata: Metadata = {
   title: "CLOWA",
   description: "",
+}
+
+export function manifest(): MetadataRoute.Manifest {
+  return {
+    name: "CLOWA",
+    short_name: "CLOWA",
+    description: "",
+    icons: [
+      { src: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+      { src: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
+    ],
+    theme_color: "#ffffff",
+    background_color: "#ffffff",
+    display: "standalone",
+  }
 }
 
 // Loading component for Suspense fallback
@@ -33,7 +49,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${oldStandardTT.className} text-[1.2rem]`} suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.png" sizes="any" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link
           rel="apple-touch-icon"
           href="/apple-touch-icon.png"
