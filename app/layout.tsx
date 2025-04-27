@@ -32,6 +32,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${oldStandardTT.className} text-[1.2rem]`} suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/favicon.png" sizes="any" />
+      </head>
       <body className="min-h-screen bg-background">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <SupabaseProvider>
