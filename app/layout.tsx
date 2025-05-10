@@ -25,6 +25,16 @@ function HeaderSkeleton() {
   )
 }
 
+const SvgDefinitions = () => (
+  <svg style={{ width: 0, height: 0, position: 'absolute' }} aria-hidden="true">
+    <defs>
+      <clipPath id="concaveButtonClipPath" clipPathUnits="objectBoundingBox">
+        <path d="M0,0 Q0.5,0.10 1,0 Q0.93,0.5 1,1 Q0.5,0.90 0,1 Q0.07,0.5 0,0 Z" />
+      </clipPath>
+    </defs>
+  </svg>
+);
+
 export default function RootLayout({
   children,
 }: {
@@ -36,6 +46,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="CLOWA" />
       </head>
       <body className="min-h-screen bg-background">
+        <SvgDefinitions />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <SupabaseProvider>
             <div className="flex min-h-screen flex-col">

@@ -171,8 +171,8 @@ export default function LoginPage() {
                   </Button>
                 </div>
               </CardContent>
-              <CardFooter>
-                <Button type="submit" className="w-full" disabled={isLoading}>
+              <CardFooter className="flex justify-center">
+                <Button type="submit" disabled={isLoading}>
                   {isLoading ? "Signing in..." : "Sign In"}
                 </Button>
               </CardFooter>
@@ -224,8 +224,8 @@ export default function LoginPage() {
                   />
                 </div>
               </CardContent>
-              <CardFooter>
-                <Button type="submit" className="w-full" disabled={isLoading}>
+              <CardFooter className="flex justify-center">
+                <Button type="submit" disabled={isLoading}>
                   {isLoading ? "Signing up..." : "Sign Up"}
                 </Button>
               </CardFooter>
