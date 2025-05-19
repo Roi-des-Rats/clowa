@@ -222,8 +222,8 @@ export default function AddArticlePage() {
               )}
             </div>
           </CardContent>
-          <CardFooter>
-            <Button type="submit" className="w-full" disabled={isLoading}>
+          <CardFooter className="flex justify-center">
+            <Button type="submit" disabled={isLoading}>
               {isLoading ? "Adding Article..." : "Add Article"}
             </Button>
           </CardFooter>
